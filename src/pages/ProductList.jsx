@@ -1,15 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import {Icon, Menu, Table} from 'semantic-ui-react'
+import { Button, Icon, Menu, Table } from 'semantic-ui-react'
 import ProductService from '../services/productService'
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '../store/actions/cartAction'
 
 export default function ProductList() {
+    const dispatch = useDispatch()
+
     const [products, setProducts] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
         let productService = new ProductService()
-        productService.getProducts().then(result=>setProducts(result.data.products))
-    },[])
+        productService.getProducts().then(result => setProducts(result.data.products))
+    }, [])
+
+    const handleAddToCart=(product)=>{
+        dispatch(addToCart(product))
+    }
 
 
     return (
@@ -24,6 +32,7 @@ export default function ProductList() {
                         <Table.HeaderCell>Ürün Stogu</Table.HeaderCell>
                         <Table.HeaderCell>Ürün Markası</Table.HeaderCell>
                         <Table.HeaderCell>Ürün Kategorisi</Table.HeaderCell>
+                        <Table.HeaderCell></Table.HeaderCell>
                     </Table.Row>
                 </Table.Header>
 
@@ -37,6 +46,9 @@ export default function ProductList() {
                             <Table.Cell>{product.stock}</Table.Cell>
                             <Table.Cell>{product.brand}</Table.Cell>
                             <Table.Cell>{product.category}</Table.Cell>
+                            <Table.Cell>
+                                <Button onClick={handleAddToCart(product)}>Sepete Ekle</Button>
+                            </Table.Cell>
                         </Table.Row>
                     ))}
                 </Table.Body>

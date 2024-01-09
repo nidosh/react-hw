@@ -18,9 +18,8 @@ function ProductDetail() {
     useEffect(() => {
         let productService = new ProductService();
         productService.getProducts().then((result) => {
-            // Assuming you have an array of products and you want to find the one with the matching title
             const foundProduct = result.data.products.find((p) => p.title === title);
-            setProduct(foundProduct || {}); // Set found product or an empty object if not found
+            setProduct(foundProduct || {});
         });
     }, [title]);
 
@@ -43,10 +42,10 @@ function ProductDetail() {
                     <CardContent extra>
                         <div className="ui two buttons">
                             <Button basic color="green">
-                                Approve
+                                Sepete Ekle
                             </Button>
                             <Button basic color="red">
-                                Decline
+                                Favorilere Ekle
                             </Button>
                         </div>
                     </CardContent>
